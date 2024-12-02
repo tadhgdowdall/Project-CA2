@@ -142,7 +142,7 @@ function getTitle(){
 
 
 
-// Incomplete, data doesnt display to html yet. it does display to console
+// Incomplete, data doesnt display to html yet. it does display to console.
 function displayDataForTitle(title){
 
 
