@@ -77,17 +77,22 @@ function displayDataImdb(data){
         }
         
             
-
+        let streamingOptionsHtml = "";
 
             
         // loops through streaming options
 
+        const addedServices = new Set(); // Track unique service names
+
+
         for (let i = 0; i < streamingOptions.length; i++) {
             let streamingOptionName = streamingOptions[i].service.name;//gets the name of the streaming service
-            streamingOptionsHtml += `<p>Streaming option ${i + 1}: ${streamingOptionName}</p>`;
+            let streamingOptionType = streamingOptions[i].type;
+            streamingOptionsHtml += `<p>Streaming option ${i + 1}: ${streamingOptionName + ", " + streamingOptionType}</p>`;
             console.log(`Streaming option ${i}: ${streamingOptionName}`);
-            outputStreamingOptions.innerHTML =  `<p>Streaming option ${i + 1}: ${streamingOptionName}</p>`;
         }
+
+        outputStreamingOptions.innerHTML = streamingOptionsHtml;
 
 
 
@@ -124,13 +129,13 @@ async function searchShow(title) {
 
         const data = await response.json();
 
-        // Check if results are returned
+        // Check if results are returned. logging them to console
         console.log('API Response:', data);
 
         if (Array.isArray(data) && data.length > 0) {
-            // Access the first item in the array
+            // get the first item in the array
             const firstItem = data[0];
-            displayDataForTitle(firstItem);  // Pass the first item to the display function
+            displayDataForTitle(firstItem);  // Pass the first item to the display function-=
         }
          else {
             const output = document.getElementById("outputTitleData");
@@ -160,7 +165,7 @@ function displayDataForTitle(item) {
         <h2>${item.title}</h2>
         <p>Year: ${item.releaseYear}</p>
         <p>Description: ${item.overview}</p>
-        <p>IMDB ID: ${item.imdbId}</p>
+        <p >IMDB ID:<strong> ${item.imdbId} </strong></p>
         <p> Main Actor: ${item.cast[0]}</p>
     `;
 }
