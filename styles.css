@@ -84,3 +84,7 @@ button:hover {
 .imdbContainer, .titleContainer {
     margin: 2em 0;
 }
+
+#imdbOutputContainer{
+    text-align: center;
+}
