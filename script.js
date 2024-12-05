@@ -161,5 +161,6 @@ function displayDataForTitle(item) {
         <p>Year: ${item.releaseYear}</p>
         <p>Description: ${item.overview}</p>
         <p>IMDB ID: ${item.imdbId}</p>
+        <p> Main Actor: ${item.cast[0]}</p>
     `;
 }
