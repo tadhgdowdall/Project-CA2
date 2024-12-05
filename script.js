@@ -1,7 +1,7 @@
 
 const baseSearchURL = 'https://streaming-availability.p.rapidapi.com/shows/search/title';
 const baseURL = `https://streaming-availability.p.rapidapi.com/shows/`;
-// tt0068646
+// tt0068646 example imdb id 
 
 
 const options = {
@@ -37,23 +37,16 @@ async function fetchShow(imbdId) {
 
 
 const btn = document.getElementById('submitBTN');
-
-
-btn.addEventListener("click", getID);
+btn.addEventListener("click", getID); // on btn click it gets imdbId from input field 
 
 
 
 function getID(){
     
-    const imdbId = document.getElementById('userInput').value.trim();
-
-   
+    const imdbId = document.getElementById('userInput').value.trim();   
     fetchShow(imdbId);
  
 }
-
-
-
 
 // function to display data from api 
 function displayDataImdb(data){
@@ -62,41 +55,27 @@ function displayDataImdb(data){
 
     const outputStreamingOptions = document.getElementById("streamingOptions")
 
-    
-
-
         let streamingOptions = data.streamingOptions.ie;
 
         for (let i = 0; i < streamingOptions.length; i++) {
-
-
             output.innerHTML = `
             <h2>${data.title}</h2>
             <p>Year ${data.releaseYear}</p>
             <p>Description: ${data.overview}</p> `;
         }
-        
-            
+                    
         let streamingOptionsHtml = "";
-
             
         // loops through streaming options
-
-        const addedServices = new Set(); // Track unique service names
-
 
         for (let i = 0; i < streamingOptions.length; i++) {
             let streamingOptionName = streamingOptions[i].service.name;//gets the name of the streaming service
             let streamingOptionType = streamingOptions[i].type;
             streamingOptionsHtml += `<p>Streaming option ${i + 1}: ${streamingOptionName + ", " + streamingOptionType}</p>`;
-            console.log(`Streaming option ${i}: ${streamingOptionName}`);
+            console.log(`Streaming option ${i}: ${streamingOptionName + streamingOptionType}`);
         }
 
         outputStreamingOptions.innerHTML = streamingOptionsHtml;
-
-
-
-
 }
 
 
@@ -132,7 +111,7 @@ async function searchShow(title) {
         // Check if results are returned. logging them to console
         console.log('API Response:', data);
 
-        if (Array.isArray(data) && data.length > 0) {
+        if (data && data.length > 0) {
             // get the first item in the array
             const firstItem = data[0];
             displayDataForTitle(firstItem);  // Pass the first item to the display function-=
