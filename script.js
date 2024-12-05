@@ -36,7 +36,7 @@ async function fetchShow(imbdId) {
 
 
 
-const btn = document.getElementById('sumbmitBTN');
+const btn = document.getElementById('submitBTN');
 
 
 btn.addEventListener("click", getID);
@@ -96,6 +96,20 @@ function displayDataImdb(data){
 
 
 
+function getTitle() {
+    const title = document.getElementById('userInputTitle').value.trim();
+
+    // Log the title to check
+    console.log('Title entered:', title);
+
+    if (title) {
+        searchShow(title);
+    } else {
+        console.log('No title entered');
+    }
+}
+
+
 // following code is to get show id and title and overview by searching its title 
 
 async function searchShow(title) {
@@ -109,14 +123,20 @@ async function searchShow(title) {
         }
 
         const data = await response.json();
-        console.log(data);
 
-        if (data.result && data.result.length > 0) {
-            displayDataForTitle(data.result); // Display the search results
-        } else {
+        // Check if results are returned
+        console.log('API Response:', data);
+
+        if (Array.isArray(data) && data.length > 0) {
+            // Access the first item in the array
+            const firstItem = data[0];
+            displayDataForTitle(firstItem);  // Pass the first item to the display function
+        }
+         else {
             const output = document.getElementById("outputTitleData");
             output.innerHTML = `<p>Could not find results for "${title}"</p>`;
         }
+
     } catch (error) {
         console.error('Error :', error);
     }
@@ -124,45 +144,22 @@ async function searchShow(title) {
 
 
 
-const titleBtn = document.getElementById('sumbmitBtnTitle');
+
+const titleBtn = document.getElementById('submitBtnTitle');
 
 titleBtn.addEventListener("click", getTitle)
 
 
 
-function getTitle(){
-
-    const title = document.getElementById('userInputTitle').value.trim();
-
-
- 
-    searchShow(title);
-  
-}
-
-
-
 // Incomplete, data doesnt display to html yet. it does display to console.
-function displayDataForTitle(data){
+function displayDataForTitle(item) {
+    const outputTitle = document.getElementById("outputTitleData");
 
-    let movieIMDB = data.imdbId;
-
-    let outputTitle = document.getElementById('outputTitleData');
-
-
-    for (let i = 0; i < movieIMDB.length; i++) {
-
-
-        outputTitle.innerHTML = `
-        <h2>${data.title}</h2>
-        <p>Year ${data.releaseYear}</p>
-        <p>Description: ${data.overview}</p> 
-        <p> IMDB : ${movieIMDB} </p>
-        `;
-    }
-    
-
-   
-
-
+    // Safely access properties and display them
+    outputTitle.innerHTML = `
+        <h2>${item.title}</h2>
+        <p>Year: ${item.releaseYear}</p>
+        <p>Description: ${item.overview}</p>
+        <p>IMDB ID: ${item.imdbId}</p>
+    `;
 }
