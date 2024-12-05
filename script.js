@@ -112,9 +112,9 @@ async function searchShow(title) {
         console.log(data);
 
         if (data.result && data.result.length > 0) {
-            displaySearchResults(data.result); // Display the search results
+            displayDataForTitle(data.result); // Display the search results
         } else {
-            const output = document.getElementById("outputData");
+            const output = document.getElementById("outputTitleData");
             output.innerHTML = `<p>Could not find results for "${title}"</p>`;
         }
     } catch (error) {
@@ -143,8 +143,26 @@ function getTitle(){
 
 
 // Incomplete, data doesnt display to html yet. it does display to console.
-function displayDataForTitle(title){
+function displayDataForTitle(data){
 
+    let movieIMDB = data.imdbId;
+
+    let outputTitle = document.getElementById('outputTitleData');
+
+
+    for (let i = 0; i < movieIMDB.length; i++) {
+
+
+        outputTitle.innerHTML = `
+        <h2>${data.title}</h2>
+        <p>Year ${data.releaseYear}</p>
+        <p>Description: ${data.overview}</p> 
+        <p> IMDB : ${movieIMDB} </p>
+        `;
+    }
+    
+
+   
 
 
 }
