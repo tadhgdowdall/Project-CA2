@@ -12,9 +12,12 @@ const options = {
     }
 }; 
 
+
+
+// Async function used to fetch the movie/show data
 async function fetchShow(imbdId) {
     try {
-        // this puts the imbd ID in the url to search specific data
+        // This creates the url by putting the imdbID in and getting the specific movie (ID must be exact)
         const url = baseURL + imbdId + "?series_granularity=episode&output_language=en";
 
         const response = await fetch(url, options);
@@ -26,7 +29,7 @@ async function fetchShow(imbdId) {
 
         const data = await response.json();
         console.log(data);
-        displayDataImdb(data); // calls the function to display the data
+        displayDataImdb(data); // calls the function to display the data for the movie just searched
     } catch (error) {
         console.error('Could not fetch the data ', error);
     }
@@ -40,12 +43,9 @@ const btn = document.getElementById('submitBTN');
 btn.addEventListener("click", getID); // on btn click it gets imdbId from input field 
 
 
-
 function getID(){
-    
     const imdbId = document.getElementById('userInput').value.trim();   
     fetchShow(imdbId);
- 
 }
 
 // function to display data from api 
@@ -53,7 +53,7 @@ function displayDataImdb(data){
 
     const output = document.getElementById("outputData")
 
-    const outputStreamingOptions = document.getElementById("streamingOptions")
+    const outputStreamingOptions = document.getElementById("streamingOptions") // output for the streaming options 
 
         let streamingOptions = data.streamingOptions.ie;
 
@@ -66,7 +66,7 @@ function displayDataImdb(data){
                     
         let streamingOptionsHtml = "";
             
-        // loops through streaming options
+        // loops through streaming options, apple tv, prime etc.
 
         for (let i = 0; i < streamingOptions.length; i++) {
             let streamingOptionName = streamingOptions[i].service.name;//gets the name of the streaming service
@@ -128,18 +128,15 @@ async function searchShow(title) {
 
 
 
-
+// submit button for the title 
 const titleBtn = document.getElementById('submitBtnTitle');
-
 titleBtn.addEventListener("click", getTitle)
 
 
 
-// Incomplete, data doesnt display to html yet. it does display to console.
+// displays data for the title 
 function displayDataForTitle(item) {
     const outputTitle = document.getElementById("outputTitleData");
-
-    // Safely access properties and display them
     outputTitle.innerHTML = `
         <h2>${item.title}</h2>
         <p>Year: ${item.releaseYear}</p>
